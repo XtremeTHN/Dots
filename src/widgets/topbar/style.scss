@@ -1,0 +1,42 @@
+@import "../../styles/common/box.scss";
+
+.topbar {
+  padding: 10px;
+  font-weight: bold;
+  font-size: small;
+  background-color: $background;
+}
+
+.topbar-date {
+  & > label {
+    transition: all 0.4s;
+    margin: 2px 5px;
+  }
+  border-radius: 16px;
+
+  transition: all 0.4s;
+}
+
+.topbar-date:hover {
+  & > label {
+    color: $background;
+  }
+  color: $background;
+  background-color: $secondary_container;
+}
+
+.topbar-workspaces-button-circle {
+  &.active {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+  background-color: $foreground;
+  min-height: 10px;
+  min-width: 5px;
+  border-radius: 10px;
+  padding-left: 3px;
+  padding-right: 3px;
+  margin: 6px 1px 6px 1px;
+  
+  transition: all 0.3s;
+}

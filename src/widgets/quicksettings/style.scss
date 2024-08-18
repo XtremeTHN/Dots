@@ -1,0 +1,104 @@
+@import "../../styles/common/box.scss";
+
+@mixin quicksettings-middle-dynamic {
+    &.active {
+        background-color: $primary;
+    }
+    transition: all 0.3s;
+}
+
+@mixin quicksettings-middle-dynamic-label {
+    &.active {
+        color: $on_primary;
+    }
+
+    transition: all 0.3s;
+}
+
+.quicksettings-window {
+    background-color: $background;
+    border-radius: 18px;
+}
+
+.quicksettings {
+    @include Box;
+
+    padding: 15px;
+
+    min-width: 435px;
+}
+
+.quickbutton {
+    min-width: 25px;
+    background-color: transparent;
+}
+
+.quicksettings-top-button {
+    & > image {
+        padding: 0px 3px;
+    }
+    border-radius: 16px;
+}
+
+.quicksettings-middle-button {
+    @include quicksettings-middle-dynamic;
+
+    padding: 8px 20px;
+
+    min-height: 50px;
+    border-radius: 18px;
+}
+
+.quicksettings-middle-button-icon {
+    @include quicksettings-middle-dynamic-label;
+}
+
+.quicksettings-middle-button-title {
+    @include quicksettings-middle-dynamic-label;
+    font-size: large;
+}
+
+.quicksettings-middle-button-subtitle {
+    @include quicksettings-middle-dynamic-label;
+
+    font-size: smaller;
+    font-weight: normal;
+}
+
+.quicksettings-middle-button-next {
+    @include quicksettings-middle-dynamic;
+
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
+
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+
+    background-color: transparent;
+
+    border-left: 1px solid $background;
+}
+
+.quicksettings-bottom-global-mixer {
+    background-color: #161719;
+    @include Box;
+}
+
+.volume-mixer-slider {
+    & highlight {
+        background-image: image($primary);
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        border-radius: 8px;
+    }
+
+    & slider {
+        background-image: image(transparent);
+        background-color: transparent;
+    }
+
+    & trough {
+        border-radius: 8px;
+    }
+}

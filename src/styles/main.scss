@@ -1,0 +1,49 @@
+@import "matugen/colors.scss";
+@import "../widgets/topbar/style.scss";
+@import "../widgets/corners/style.scss";
+@import "../widgets/quicksettings/style.scss";
+
+* {
+    color: $foreground;
+    font-weight: bold;
+    font-size: small;
+}
+
+button:hover {
+    background-color: $surface_bright;
+}
+
+window {
+    background-color: transparent;
+}
+.title-1 {
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.title-2 {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.title-3 {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.title-4 {
+    font-size: large;
+    font-weight: bold;
+}
+
+.circular {
+    min-width: 34px;
+    min-height: 34px;
+    padding: 0;
+    padding-right: 1px;
+    border-radius: 9999px;
+
+    label {
+        padding: 0;
+    }
+}

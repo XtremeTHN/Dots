@@ -1,0 +1,185 @@
+.topbar {
+  padding: 10px;
+  font-weight: bold;
+  font-size: small;
+  background-color: #0f1511;
+}
+
+.topbar-date {
+  border-radius: 16px;
+  transition: all 0.4s;
+}
+.topbar-date > label {
+  transition: all 0.4s;
+  margin: 2px 5px;
+}
+
+.topbar-date:hover {
+  color: #0f1511;
+  background-color: #b5ccba;
+}
+.topbar-date:hover > label {
+  color: #0f1511;
+}
+
+.topbar-workspaces-button-circle {
+  background-color: #b5ccba;
+  min-height: 10px;
+  min-width: 5px;
+  border-radius: 10px;
+  padding-left: 3px;
+  padding-right: 3px;
+  margin: 6px 1px 6px 1px;
+  transition: all 0.3s;
+}
+.topbar-workspaces-button-circle.active {
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+.corner {
+  background-color: #0f1511;
+  border-radius: 1rem;
+}
+
+.angle {
+  background-color: #0f1511;
+}
+
+.quicksettings-window {
+  background-color: #0f1511;
+  border-radius: 18px;
+}
+
+.quicksettings {
+  padding: 10px;
+  border-radius: 16px;
+  padding: 15px;
+  min-width: 435px;
+}
+
+.quickbutton {
+  min-width: 25px;
+  background-color: transparent;
+}
+
+.quicksettings-top-button {
+  border-radius: 16px;
+}
+.quicksettings-top-button > image {
+  padding: 0px 3px;
+}
+
+.quicksettings-middle-button {
+  transition: all 0.3s;
+  padding: 8px 20px;
+  min-height: 50px;
+  border-radius: 18px;
+}
+.quicksettings-middle-button.active {
+  background-color: #94d5a9;
+}
+
+.quicksettings-middle-button-icon {
+  transition: all 0.3s;
+}
+.quicksettings-middle-button-icon.active {
+  color: #00391f;
+}
+
+.quicksettings-middle-button-title {
+  transition: all 0.3s;
+  font-size: large;
+}
+.quicksettings-middle-button-title.active {
+  color: #00391f;
+}
+
+.quicksettings-middle-button-subtitle {
+  transition: all 0.3s;
+  font-size: smaller;
+  font-weight: normal;
+}
+.quicksettings-middle-button-subtitle.active {
+  color: #00391f;
+}
+
+.quicksettings-middle-button-next {
+  transition: all 0.3s;
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  background-color: transparent;
+  border-left: 1px solid #0f1511;
+}
+.quicksettings-middle-button-next.active {
+  background-color: #94d5a9;
+}
+
+.quicksettings-bottom-global-mixer {
+  background-color: #161719;
+  padding: 10px;
+  border-radius: 16px;
+}
+
+.volume-mixer-slider highlight {
+  background-image: image(#94d5a9);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 8px;
+}
+.volume-mixer-slider slider {
+  background-image: image(transparent);
+  background-color: transparent;
+}
+.volume-mixer-slider trough {
+  border-radius: 8px;
+}
+
+* {
+  color: #b5ccba;
+  font-weight: bold;
+  font-size: small;
+}
+
+button:hover {
+  background-color: #353b36;
+}
+
+window {
+  background-color: transparent;
+}
+
+.title-1 {
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+.title-2 {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.title-3 {
+  font-size: larger;
+  font-weight: bold;
+}
+
+.title-4 {
+  font-size: large;
+  font-weight: bold;
+}
+
+.circular {
+  min-width: 34px;
+  min-height: 34px;
+  padding: 0;
+  padding-right: 1px;
+  border-radius: 9999px;
+}
+.circular label {
+  padding: 0;
+}
+
+/*# sourceMappingURL=style.css.map */
