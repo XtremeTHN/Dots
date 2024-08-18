@@ -12,8 +12,10 @@ export default () =>
     class_name: "quicksettings-window",
     margins: [25, 20],
     anchor: ["right", "top"],
+    keymode: "on-demand",
     child: Widget.Stack({
       transition: "slide_left_right",
+      hexpand: true,
       setup: (self) => {
         self.children = {
           main: Widget.Box({
