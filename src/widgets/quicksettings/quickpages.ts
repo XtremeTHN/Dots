@@ -36,8 +36,8 @@ const Page = (content, title, stack, target) =>
           ],
         }),
         Widget.Scrollable({
-          css: "min-height: 450px",
           child: content,
+          max_content_height: 250,
           vexpand: true,
         }),
       ],
@@ -153,8 +153,13 @@ export const WifiMenu = (stack) =>
           );
         } else {
           self.children = [
+            Widget.Icon({
+              icon: "network-wireless-offline-symbolic",
+              size: 64,
+            }),
             Widget.Label({
               label: "Wifi not available",
+              expand: true,
             }),
           ];
         }
