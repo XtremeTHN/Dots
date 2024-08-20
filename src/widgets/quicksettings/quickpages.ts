@@ -3,6 +3,7 @@ import Network from "resource:///com/github/Aylur/ags/service/network.js";
 
 import { execAsync } from "resource:///com/github/Aylur/ags/utils.js";
 import { AccessPoint } from "types/@girs/nm-1.0/nm-1.0.cjs";
+import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
 
 let StopUpdating = false;
 
@@ -133,7 +134,10 @@ export const WifiMenu = (stack) =>
   Page(
     Widget.Box({
       vertical: true,
-      setup: (self) => {
+      setup: (self) => {},
+    }).hook(
+      Network,
+      (self) => {
         if (Network.wifi.state !== "unknown") {
           self.hook(
             Network.wifi,
@@ -164,8 +168,53 @@ export const WifiMenu = (stack) =>
           ];
         }
       },
-    }),
+      "notify::primary",
+    ),
     "Network",
     stack,
     "wifi-menu",
+  );
+
+const BluetoothDevice = (device) =>
+  Widget.Box({
+    class_name: "quicksettings-bluetooth-device",
+    children: [
+      Widget.Icon({
+        icon: device.icon_name,
+        size: 16,
+      }),
+      Widget.Label(device.name == null ? "No name" : device.name),
+      Widget.Spinner({
+        active: device.bind("connecting"),
+        visible: device.bind("conecting"),
+        hpack: "end",
+        hexpand: true,
+      }),
+      Widget.Switch({
+        active: device.bind("connected"),
+        hpack: "end",
+        hexpand: true,
+        visible: device.bind("connecting").as((p) => !p),
+        onActivate: ({ active }) => {
+          device.setConnection(active);
+        },
+      }),
+    ],
+  });
+
+export const BluetoothMenu = (stack) =>
+  Page(
+    Widget.Box({
+      vertical: true,
+      spacing: 15,
+      children: [
+        Widget.Box({
+          vertical: true,
+          children: Bluetooth.bind("devices").as((v) => v.map(BluetoothDevice)),
+        }),
+      ],
+    }),
+    "Bluetooth",
+    stack,
+    "bluetooth-menu",
   );

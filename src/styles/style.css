@@ -123,6 +123,9 @@
   border-radius: 16px;
 }
 
+/* .quicksettings-bluetooth-device {
+    background-color: ;
+} */
 .volume-mixer-slider highlight {
   background-image: image(#94d5a9);
   padding-top: 10px;

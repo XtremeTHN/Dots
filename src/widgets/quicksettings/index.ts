@@ -1,5 +1,5 @@
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
-import { WifiMenu } from "./quickpages.js";
+import { WifiMenu, BluetoothMenu } from "./quickpages.js";
 import {
   QuickSettingsTop,
   QuickSettingsMiddle,
@@ -29,6 +29,7 @@ export default () =>
             ],
           }),
           "wifi-menu": WifiMenu(self),
+          "bluetooth-menu": BluetoothMenu(self),
         };
       },
     }),
