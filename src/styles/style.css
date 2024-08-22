@@ -46,6 +46,12 @@
   background-color: #0f1511;
 }
 
+.notification {
+  background-color: #0f1511;
+  padding: 10px;
+  border-radius: 16px;
+}
+
 .quicksettings-window {
   background-color: #0f1511;
   border-radius: 18px;
@@ -123,9 +129,10 @@
   border-radius: 16px;
 }
 
-/* .quicksettings-bluetooth-device {
-    background-color: ;
-} */
+.quicksettings-bluetooth-device {
+  background-color: #161719;
+}
+
 .volume-mixer-slider highlight {
   background-image: image(#94d5a9);
   padding-top: 10px;

@@ -84,9 +84,9 @@
     @include Box;
 }
 
-/* .quicksettings-bluetooth-device {
-    background-color: ;
-} */
+.quicksettings-bluetooth-device {
+    background-color: $gtk_button_background;
+}
 
 .volume-mixer-slider {
     & highlight {

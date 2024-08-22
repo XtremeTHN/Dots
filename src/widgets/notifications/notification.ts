@@ -12,6 +12,7 @@ const NotificationIcon = ({ app_entry, app_icon, image }: Notification) => {
                 background-size: cover;
                 background-repeat: no-repeat;
                 background-position: center;
+                border-radius: 16px;
                 min-width: 78px;
                 min-height: 78px;
             `,
@@ -42,33 +43,31 @@ const NotificationIcon = ({ app_entry, app_icon, image }: Notification) => {
   });
 };
 
-export const notification = (noti: Notification) => {
+export default (noti: Notification) => {
   let box = Widget.Box({
+    spacing: 10,
     children: [
       NotificationIcon(noti),
       Widget.Box({
-        spacing: 10,
+        vertical: true,
+        spacing: 5,
         children: [
-          Widget.Box({
-            children: [
-              Widget.Label({
-                class_name: "title-3",
-                xalign: 0,
-                justification: "left",
-                hexpand: true,
-                max_width_chars: 24,
-                truncate: "end",
-                wrap: true,
-                label: noti.summary.trim(),
-              }),
-              Widget.Label({
-                label: noti.body.trim(),
-                hexpand: true,
-                use_markup: true,
-                xalign: 0,
-                justification: "left",
-              }),
-            ],
+          Widget.Label({
+            class_name: "title-3",
+            xalign: 0,
+            justification: "left",
+            hexpand: true,
+            max_width_chars: 24,
+            truncate: "end",
+            wrap: true,
+            label: noti.summary.trim(),
+          }),
+          Widget.Label({
+            label: noti.body.trim(),
+            hexpand: true,
+            use_markup: true,
+            xalign: 0,
+            justification: "left",
           }),
         ],
       }),
@@ -102,5 +101,16 @@ export const notification = (noti: Notification) => {
     on_hover_lost() {
       if (actions) actions.reveal_child = false;
     },
+    child: Widget.Box({
+      vertical: true,
+      children: actions ? [box, actions] : [],
+    }),
+  });
+
+  return Widget.Box({
+    class_name: `notification ${noti.urgency}`,
+    name: "root",
+    css: "min-width: 300px;",
+    child: event_box,
   });
 };
