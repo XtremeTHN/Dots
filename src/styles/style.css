@@ -60,6 +60,7 @@
 .quicksettings {
   padding: 10px;
   border-radius: 16px;
+  background-color: #0f1511;
   padding: 15px;
   min-width: 435px;
 }
@@ -127,6 +128,7 @@
   background-color: #161719;
   padding: 10px;
   border-radius: 16px;
+  background-color: #0f1511;
 }
 
 .quicksettings-bluetooth-device {
@@ -145,6 +147,32 @@
 }
 .volume-mixer-slider trough {
   border-radius: 8px;
+}
+
+.greeter-user-login {
+  padding: 10px;
+  border-radius: 16px;
+  background-color: #0f1511;
+  padding: 0px;
+  min-width: 400px;
+  min-height: 210px;
+}
+
+.greeter-user-wallpaper {
+  border-top-right-radius: 16px;
+  border-top-left-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  min-height: 200px;
+}
+
+.greeter-user-login-entry {
+  margin: 20px;
+  margin-top: 40px;
+}
+
+.greeter-content-entry {
+  padding: 10px;
 }
 
 * {

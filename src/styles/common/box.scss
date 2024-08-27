@@ -1,4 +1,6 @@
 @mixin Box {
     padding: 10px;
     border-radius: 16px;
+
+    background-color: $background;
 }

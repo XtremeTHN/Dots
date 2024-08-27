@@ -1,13 +1,13 @@
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
-import { User, UpTime } from "../../lib/variables.js";
-import { NetIcon, NetState, net_active_handler } from "../../lib/internet.js";
+import { User, UpTime } from "src/lib/variables.js";
+import { NetIcon, NetState, net_active_handler } from "src/lib/internet.js";
 import {
   BluetoothIcon,
   BluetoothState,
   BluetoothFirstDeviceConnected,
   bluetooth_active_handler,
 } from "../../lib/bluetooth.js";
-import { AudioMixer } from "../../lib/audio.js";
+import { AudioMixer } from "src/lib/audio.js";
 
 import Network from "resource:///com/github/Aylur/ags/service/network.js";
 import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
@@ -124,7 +124,7 @@ export const QuickSettingsTop = () =>
     children: [
       Widget.Box({
         css: `
-            background-image: url("/home/${User.value}/Pictures/pfp.jpg");
+            background-image: url("/home/${User}/Pictures/pfp.jpg");
             background-size: cover;
             background-position: center;
             min-height: 50px; min-width: 50px;
@@ -135,7 +135,7 @@ export const QuickSettingsTop = () =>
         hexpand: true,
         children: [
           Widget.Label({
-            label: `${User.value.at(0)?.toUpperCase()}${User.value.slice(1)}`,
+            label: `${User.at(0)?.toUpperCase()}${User.slice(1)}`,
             xalign: 0,
           }),
           Widget.Label({
