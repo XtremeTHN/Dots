@@ -3,13 +3,16 @@
 @import "../widgets/corners/style.scss";
 @import "../widgets/notifications/style.scss";
 @import "../widgets/quicksettings/style.scss";
-@import "../widgets/greeter/style.scss";
 
 * {
     color: $foreground;
     font-weight: bold;
     font-size: small;
 }
+
+/* entry {
+    background-color: ;
+} */
 
 button:hover {
     background-color: $surface_bright;
@@ -36,6 +39,15 @@ window {
 .title-4 {
     font-size: large;
     font-weight: bold;
+}
+
+.boxed-image {
+    background-size: cover;
+    background-position: center;
+}
+
+.circular-image {
+    border-radius: 9999px;
 }
 
 .circular {

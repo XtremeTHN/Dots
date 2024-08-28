@@ -149,38 +149,15 @@
   border-radius: 8px;
 }
 
-.greeter-user-login {
-  padding: 10px;
-  border-radius: 16px;
-  background-color: #0f1511;
-  padding: 0px;
-  min-width: 400px;
-  min-height: 210px;
-}
-
-.greeter-user-wallpaper {
-  border-top-right-radius: 16px;
-  border-top-left-radius: 16px;
-  background-size: cover;
-  background-position: center;
-  min-height: 200px;
-}
-
-.greeter-user-login-entry {
-  margin: 20px;
-  margin-top: 40px;
-}
-
-.greeter-content-entry {
-  padding: 10px;
-}
-
 * {
   color: #b5ccba;
   font-weight: bold;
   font-size: small;
 }
 
+/* entry {
+    background-color: ;
+} */
 button:hover {
   background-color: #353b36;
 }
@@ -207,6 +184,15 @@ window {
 .title-4 {
   font-size: large;
   font-weight: bold;
+}
+
+.boxed-image {
+  background-size: cover;
+  background-position: center;
+}
+
+.circular-image {
+  border-radius: 9999px;
 }
 
 .circular {

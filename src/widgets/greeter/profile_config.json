@@ -1,0 +1,9 @@
+{
+  "users": [
+    {
+      "name": "axel",
+      "wallpaper": "/etc/greetd/axel_wall.jpg",
+      "pfp": "/etc/greetd/pfps/axel.jpg"
+    }
+  ]
+}

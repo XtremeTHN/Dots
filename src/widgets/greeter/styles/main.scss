@@ -1,0 +1,103 @@
+@import "colors.scss";
+
+@mixin Box {
+    padding: 10px;
+    border-radius: 16px;
+
+    background-color: $background;
+}
+
+* {
+    color: $foreground;
+    font-weight: bold;
+    font-size: small;
+}
+
+button {
+    background-color: $gtk_button_background;
+}
+
+button:hover {
+    background-color: $surface_bright;
+}
+
+window {
+    background-color: transparent;
+}
+.title-1 {
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.title-2 {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.title-3 {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.title-4 {
+    font-size: large;
+    font-weight: bold;
+}
+
+.boxed-image {
+    background-size: cover;
+    background-position: center;
+}
+
+.circular-image {
+    border-radius: 9999px;
+}
+
+.circular {
+    min-width: 34px;
+    min-height: 34px;
+    padding: 0;
+    padding-right: 1px;
+    border-radius: 9999px;
+
+    label {
+        padding: 0;
+    }
+}
+
+.greeter-user-login {
+    @include Box;
+
+    padding: 0px;
+    min-width: 400px;
+    min-height: 210px;
+}
+
+.greeter-user-wallpaper {
+    border-top-right-radius: 16px;
+    border-top-left-radius: 16px;
+    background-size: cover;
+    background-position: center;
+    min-height: 200px;
+}
+
+.greeter-user-login-entry {
+    margin: 20px;
+    margin-top: 40px;
+}
+
+.greeter-user-pfp {
+    min-width: 120px;
+    min-height: 120px;
+}
+
+.greeter-user-button {
+    padding: 10px;
+
+    min-width: 250px;
+    border-radius: 16px;
+}
+
+.greeter-content-entry {
+    padding: 10px;
+}
