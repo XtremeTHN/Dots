@@ -4,10 +4,31 @@ import Gtk from "gi://Gtk?version=3.0";
 import RoundedImage from "../custom/image.js";
 import { toTitle } from "../../lib/tools.js";
 
+import TopBar from "./topbar.js";
+import { CornerTopleft, CornerTopright } from "../corners/index.js";
+
 const greetd = await Service.import("greetd");
 const options = JSON.parse(
   Utils.readFile(`${App.configDir}/profile_config.json`),
 );
+
+// function getUsers() {
+//   const passwd = Utils.readFile("/etc/passwd").split("\n");
+//   let users: Array<string> = [];
+
+//   for (let x of passwd) {
+//     let splitted = x.split(":");
+
+//     // splitted[0] user name
+//     // splitted[2] user uuid
+//     // if user uuid is greeter than 1000 then this user is from a human
+//     // idk why is there a user named nobody
+//     if (Number.parseInt(splitted[2]) >= 1000 && splitted[0] !== "nobody")
+//       users.push(splitted[0]);
+//   }
+
+//   return users;
+// }
 
 type TUser = {
   name: string;
@@ -15,7 +36,7 @@ type TUser = {
   wallpaper: string;
 };
 
-const UserLogin = (user: TUser) =>
+const UserLogin = (user: TUser, stack: Gtk.Stack) =>
   Widget.Overlay({
     //@ts-ignore
     child: Widget.Box({
@@ -27,14 +48,33 @@ const UserLogin = (user: TUser) =>
           image: user.wallpaper,
           className: "greeter-user-wallpaper",
         }),
-        Widget.Entry({
+        Widget.Box({
           vpack: "center",
-          className: "greeter-user-login-entry",
-          placeholderText: "Password",
-          onAccept: ({ text }) => {
-            greetd.login(user.name, text == null ? "" : text, "Hyprland", []);
-            setTimeout(() => App.Quit(), 2000);
-          },
+          className: "greeter-user-login-data",
+          hexpand: true,
+          vertical: true,
+          spacing: 10,
+          children: [
+            Widget.Entry({
+              placeholderText: "Password",
+              visibility: false,
+              hexpand: true,
+              onAccept: ({ text }) => {
+                greetd.login(
+                  user.name,
+                  text == null ? "" : text,
+                  "Hyprland",
+                  [],
+                );
+                setTimeout(() => App.Quit(), 2000);
+              },
+            }),
+            Widget.Button({
+              onClicked: () => stack.set_visible_child_name("user-selector"),
+              child: Widget.Label("Go back"),
+              hexpand: true,
+            }),
+          ],
         }),
       ],
     }),
@@ -44,7 +84,7 @@ const UserLogin = (user: TUser) =>
         vertical: true,
         vpack: "center",
         hpack: "center",
-        marginTop: 20,
+        marginBottom: 20,
         children: [
           //@ts-ignore
           RoundedImage({
@@ -98,8 +138,10 @@ const Selector = (stack: Gtk.Stack) =>
 // main function
 const stack = new Gtk.Stack();
 stack.add_named(Selector(stack), "user-selector");
+stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE);
+stack.set_transition_duration(300);
 
-options.users.forEach((u) => stack.add_named(UserLogin(u), u.name));
+options.users.forEach((u) => stack.add_named(UserLogin(u, stack), u.name));
 
 const STYLE_PATH = `${App.configDir}`;
 
@@ -119,9 +161,12 @@ App.config({
   windows: [
     Widget.Window({
       name: "greeter",
-      keymode: "exclusive",
+      keymode: "on-demand",
       child: stack,
     }),
+    CornerTopleft(),
+    CornerTopright(),
+    TopBar(),
     Background(),
   ],
 });

@@ -81,9 +81,13 @@ window {
     min-height: 200px;
 }
 
-.greeter-user-login-entry {
-    margin: 20px;
-    margin-top: 40px;
+.greeter-user-login-data {
+    padding: 20px;
+    padding-top: 40px;
+
+    & > button {
+        box-shadow: none;
+    }
 }
 
 .greeter-user-pfp {
@@ -100,4 +104,39 @@ window {
 
 .greeter-content-entry {
     padding: 10px;
+}
+
+.topbar {
+    padding: 10px;
+    font-weight: bold;
+    font-size: small;
+    background-color: $background;
+}
+
+.topbar-date {
+    border-radius: 16px;
+    transition: all 0.4s;
+
+    & > label {
+        transition: all 0.4s;
+        margin: 2px 5px;
+    }
+}
+
+.topbar-date:hover {
+    color: $background;
+    background-color: $secondary_container;
+
+    & > label {
+        color: $background;
+    }
+}
+
+.corner {
+    background-color: $background;
+    border-radius: 1rem;
+}
+
+.angle {
+    background-color: $background;
 }

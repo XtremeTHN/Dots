@@ -4,6 +4,10 @@
   font-size: small;
 }
 
+button {
+  background-color: #161719;
+}
+
 button:hover {
   background-color: #353b36;
 }
@@ -69,9 +73,12 @@ window {
   min-height: 200px;
 }
 
-.greeter-user-login-entry {
-  margin: 20px;
-  margin-top: 40px;
+.greeter-user-login-data {
+  padding: 20px;
+  padding-top: 40px;
+}
+.greeter-user-login-data > button {
+  box-shadow: none;
 }
 
 .greeter-user-pfp {
@@ -87,6 +94,39 @@ window {
 
 .greeter-content-entry {
   padding: 10px;
+}
+
+.topbar {
+  padding: 10px;
+  font-weight: bold;
+  font-size: small;
+  background-color: #0f1511;
+}
+
+.topbar-date {
+  border-radius: 16px;
+  transition: all 0.4s;
+}
+.topbar-date > label {
+  transition: all 0.4s;
+  margin: 2px 5px;
+}
+
+.topbar-date:hover {
+  color: #0f1511;
+  background-color: #b5ccba;
+}
+.topbar-date:hover > label {
+  color: #0f1511;
+}
+
+.corner {
+  background-color: #0f1511;
+  border-radius: 1rem;
+}
+
+.angle {
+  background-color: #0f1511;
 }
 
 /*# sourceMappingURL=style.css.map */
