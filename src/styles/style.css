@@ -123,14 +123,10 @@
   background-color: #94d5a9;
 }
 
-.quicksettings-bottom-global-mixer {
-  background-color: #161719;
+.quicksettings-container {
+  background-color: #1c211d;
   padding: 10px;
   border-radius: 16px;
-}
-
-.quicksettings-bluetooth-device {
-  background-color: #161719;
 }
 
 .volume-mixer-slider highlight {
@@ -190,6 +186,10 @@ window {
 }
 .circular label {
   padding: 0;
+}
+
+.flat {
+  background-color: transparent;
 }
 
 /*# sourceMappingURL=style.css.map */

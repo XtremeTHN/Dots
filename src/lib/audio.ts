@@ -44,6 +44,6 @@ export const Volume = () =>
 
 export const AudioMixer = () =>
   Widget.Box({
-    class_name: "quicksettings-bottom-global-mixer",
+    class_name: "quicksettings-container",
     children: [Volume()],
   });
