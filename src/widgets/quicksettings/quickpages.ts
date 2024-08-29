@@ -38,6 +38,7 @@ const Page = (content, title, stack, target) =>
         }),
         Widget.Scrollable({
           child: content,
+          class_name: "quicksettings-container",
           max_content_height: 250,
           vexpand: true,
         }),
@@ -118,6 +119,7 @@ const WifiItem = (ap) => {
     vertical: true,
     children: [
       Widget.Button({
+        class_name: "flat",
         on_clicked: () => {
           revealer.reveal_child = !revealer.reveal_child;
           StopUpdating = revealer.reveal_child;
@@ -134,41 +136,22 @@ export const WifiMenu = (stack) =>
   Page(
     Widget.Box({
       vertical: true,
-      setup: (self) => {},
+      vexpand: true,
+      // @ts-ignore
+      children: Network.wifi.bind("access_points").as((a) => {
+        if (stack.shown !== "wifi-menu") return [];
+
+        if (StopUpdating) return;
+        console.debug("Updating wifi quicksettings");
+        return a.map(WifiItem);
+      }),
     }).hook(
-      Network,
+      stack,
       (self) => {
-        if (Network.wifi.state !== "unknown") {
-          self.hook(
-            Network.wifi,
-            () => {
-              if (StopUpdating) {
-                return;
-              }
-
-              let children = [];
-              for (let ap of Network.wifi.access_points) {
-                children.push(WifiItem(ap));
-              }
-
-              self.children = children;
-            },
-            "notify::access-points",
-          );
-        } else {
-          self.children = [
-            Widget.Icon({
-              icon: "network-wireless-offline-symbolic",
-              size: 64,
-            }),
-            Widget.Label({
-              label: "Wifi not available",
-              expand: true,
-            }),
-          ];
-        }
+        if (stack.shown === "wifi-menu")
+          self.children = Network.wifi.access_points.map(WifiItem);
       },
-      "notify::primary",
+      "notify::shown",
     ),
     "Network",
     stack,
@@ -177,7 +160,7 @@ export const WifiMenu = (stack) =>
 
 const BluetoothDevice = (device) =>
   Widget.Box({
-    class_name: "quicksettings-bluetooth-device",
+    spacing: 10,
     children: [
       Widget.Icon({
         icon: device.icon_name,
@@ -210,8 +193,19 @@ export const BluetoothMenu = (stack) =>
       children: [
         Widget.Box({
           vertical: true,
-          children: Bluetooth.bind("devices").as((v) => v.map(BluetoothDevice)),
-        }),
+          children: Bluetooth.bind("devices").as((v) => {
+            if (stack.shown !== "bluetooth-menu") return [];
+
+            return v.map(BluetoothDevice);
+          }),
+        }).hook(
+          stack,
+          (self) => {
+            if (stack.shown === "bluetooth-menu")
+              self.children = Bluetooth.devices.map(BluetoothDevice);
+          },
+          "notify::shown",
+        ),
       ],
     }),
     "Bluetooth",
