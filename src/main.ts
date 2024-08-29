@@ -4,6 +4,8 @@ import Notifications from "./widgets/notifications/index.js";
 import Options from "./options.js";
 import { CornerTopleft, CornerTopright } from "./widgets/corners/index.js";
 
+import("src/lib/battery.js");
+
 globalThis["options"] = Options;
 
 App.config({
