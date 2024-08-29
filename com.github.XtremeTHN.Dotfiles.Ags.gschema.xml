@@ -1,0 +1,21 @@
+<schemalist>
+    <schema id="com.github.XtremeTHN.DotFiles.ags" path="/com/github/Axel/DotFiles/ags/">
+        <key name="wallpaper" type="s">
+            <default>""</default>
+            <summary>Your wallpaper</summary>
+            <description>Ur wallpaper</description>
+        </key>
+
+        <key name="greeter-login-image" type="s">
+            <default>"/etc/greetd/greeter_image.jpg"</default>
+            <summary>Login image</summary>
+            <description>The image above the profile photo in login screen</description>
+        </key>
+
+        <key name="axel-greeter-images" type="s">
+            <default>"/etc/greetd/pfps/axel.jpg;/etc/greetd/axel_wall.jpg"</default>
+            <summary>User profile picture</summary>
+            <description/>
+        </key>
+    </schema>
+</schemalist>

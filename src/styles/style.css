@@ -60,6 +60,7 @@
 .quicksettings {
   padding: 10px;
   border-radius: 16px;
+  background-color: #0f1511;
   padding: 15px;
   min-width: 435px;
 }
@@ -127,6 +128,7 @@
   background-color: #1c211d;
   padding: 10px;
   border-radius: 16px;
+  background-color: #0f1511;
 }
 
 .volume-mixer-slider highlight {
@@ -149,6 +151,9 @@
   font-size: small;
 }
 
+/* entry {
+    background-color: ;
+} */
 button:hover {
   background-color: #353b36;
 }
@@ -175,6 +180,15 @@ window {
 .title-4 {
   font-size: large;
   font-weight: bold;
+}
+
+.boxed-image {
+  background-size: cover;
+  background-position: center;
+}
+
+.circular-image {
+  border-radius: 9999px;
 }
 
 .circular {
