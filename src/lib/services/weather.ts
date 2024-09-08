@@ -59,7 +59,13 @@ import Geoclue from "gi://Geoclue";
 // console.log("updating");
 
 const get_location_geoclue = () => {
-  let simple = Geoclue.Simple.new;
+  let simple = Geoclue.Simple.new_sync(
+    "gnome-shell",
+    Geoclue.AccuracyLevel.CITY,
+    null,
+  );
+
+  console.log(simple.get_location());
 };
 
 // class weatherapi extends Service {
