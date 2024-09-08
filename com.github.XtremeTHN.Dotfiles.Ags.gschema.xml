@@ -19,5 +19,23 @@
             <summary>Weather Provider</summary>
             <description>The weather provider for Lib GWeather</description>
         </key>
+
+        <key name="current-city-name" type="s">
+            <default>""</default>
+            <summary>Your city</summary>
+            <description>Your current city, needed for GWeather</description>
+        </key>
+
+        <key name="latitude" type="d">
+            <default>0</default>
+            <summary>Your latitude</summary>
+            <description>Needed for GWeather. It should be automatically setted when running ags with my dotfiles</description>
+        </key>
+
+        <key name="longitude" type="d">
+            <default>0</default>
+            <summary>Your longitude</summary>
+            <description>Needed for GWeather. It should be automatically setted when running ags with my dotfiles</description>
+        </key>
     </schema>
 </schemalist>
