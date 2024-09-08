@@ -14,6 +14,12 @@
             <description>Ur wallpaper</description>
         </key>
 
+        <key name="dark-mode" type="b">
+            <default>true</default>
+            <summary>Dark color scheme</summary>
+            <description>This will affect the compiling of the scss</description>
+        </key>
+
         <key name="provider" enum="com.github.XtremeTHN.DotFiles.ags.WeatherProvider">
             <default>"metar"</default>
             <summary>Weather Provider</summary>

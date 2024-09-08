@@ -1,8 +1,9 @@
-import { opt } from "./lib/config.js";
+import { opt } from "./lib/opt.js";
 
 export default {
   wallpaper: opt("wallpaper"),
-  provider: opt("provider", true),
+  dark_mode: opt("dark-mode"),
+  provider: opt("provider"),
   location: {
     city_name: opt("current-city-name"),
     lat: opt("latitude"),
