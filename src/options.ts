@@ -1,4 +1,4 @@
-import { opt } from "./lib/opt.js";
+import { opt } from "./lib/services/opt.js";
 
 export default {
   wallpaper: opt("wallpaper"),
