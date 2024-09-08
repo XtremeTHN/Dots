@@ -10,6 +10,7 @@ import { initStyle } from "./lib/style.js";
 import("src/lib/battery.js");
 
 options.wallpaper.on_change(initStyle);
+options.dark_mode.on_change(initStyle);
 initStyle();
 
 App.config({
