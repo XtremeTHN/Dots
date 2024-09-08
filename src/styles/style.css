@@ -3,7 +3,7 @@
   padding: 10px;
   font-weight: bold;
   font-size: small;
-  background-color: #121318;
+  background-color: #0f1511;
 }
 
 .topbar-date {
@@ -16,15 +16,15 @@
 }
 
 .topbar-date:hover {
-  color: #121318;
-  background-color: #414659;
+  color: #0f1511;
+  background-color: #3a4e3f;
 }
 .topbar-date:hover > label {
-  color: #121318;
+  color: #0f1511;
 }
 
 .topbar-workspaces-button-circle {
-  background-color: #c1c5dd;
+  background-color: #b5ccb9;
   min-height: 10px;
   min-width: 5px;
   border-radius: 10px;
@@ -39,16 +39,16 @@
 }
 
 .corner {
-  background-color: #121318;
+  background-color: #0f1511;
   border-radius: 1rem;
 }
 
 .angle {
-  background-color: #121318;
+  background-color: #0f1511;
 }
 
 .notification {
-  background-color: #121318;
+  background-color: #0f1511;
   padding: 10px;
   border-radius: 16px;
 }
@@ -56,14 +56,14 @@
 .notification-center {
   padding: 10px;
   border-radius: 16px;
-  background-color: #121318;
+  background-color: #0f1511;
   min-width: 640px;
   min-height: 410px;
   padding: 20px;
 }
 
 .notification-center-item {
-  background-color: #1e1f25;
+  background-color: #1c211d;
   padding: 10px;
   border-radius: 16px;
 }
@@ -84,14 +84,14 @@
 }
 
 .quicksettings-window {
-  background-color: #121318;
+  background-color: #0f1511;
   border-radius: 18px;
 }
 
 .quicksettings {
   padding: 10px;
   border-radius: 16px;
-  background-color: #121318;
+  background-color: #0f1511;
   padding: 15px;
   min-width: 435px;
 }
@@ -115,14 +115,14 @@
   border-radius: 18px;
 }
 .quicksettings-middle-button.active {
-  background-color: #b4c5ff;
+  background-color: #94d5a9;
 }
 
 .quicksettings-middle-button-icon {
   transition: all 0.3s;
 }
 .quicksettings-middle-button-icon.active {
-  color: #1b2d60;
+  color: #00391e;
 }
 
 .quicksettings-middle-button-title {
@@ -130,7 +130,7 @@
   font-size: large;
 }
 .quicksettings-middle-button-title.active {
-  color: #1b2d60;
+  color: #00391e;
 }
 
 .quicksettings-middle-button-subtitle {
@@ -139,7 +139,7 @@
   font-weight: normal;
 }
 .quicksettings-middle-button-subtitle.active {
-  color: #1b2d60;
+  color: #00391e;
 }
 
 .quicksettings-middle-button-next {
@@ -149,32 +149,32 @@
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
   background-color: transparent;
-  border-left: 1px solid #121318;
+  border-left: 1px solid #0f1511;
 }
 .quicksettings-middle-button-next.active {
-  background-color: #b4c5ff;
+  background-color: #94d5a9;
 }
 
 .quicksettings-container {
-  background-color: #1e1f25;
+  background-color: #1c211d;
   padding: 10px;
   border-radius: 16px;
-  background-color: #121318;
+  background-color: #0f1511;
 }
 
 .quicksettings-mpris {
   padding: 10px;
   border-radius: 16px;
-  background-color: #121318;
+  background-color: #0f1511;
   min-width: 100px;
 }
 
 .quicksettings-mpris-background {
-  background-color: rgba(30, 31, 37, 0.6);
+  background-color: rgba(28, 33, 29, 0.6);
 }
 
 .volume-mixer-slider highlight {
-  background-image: image(#b4c5ff);
+  background-image: image(#94d5a9);
   padding-top: 10px;
   padding-bottom: 10px;
   border-radius: 8px;
@@ -188,13 +188,13 @@
 }
 
 * {
-  color: #c1c5dd;
+  color: #b5ccb9;
   font-weight: bold;
   font-size: small;
 }
 
 button {
-  background: #292a2f;
+  background: #262b27;
   box-shadow: none;
 }
 
@@ -202,7 +202,7 @@ button {
     background-color: ;
 } */
 button:hover {
-  background-color: #38393f;
+  background-color: #353b36;
 }
 
 window {
