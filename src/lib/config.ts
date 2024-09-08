@@ -16,13 +16,10 @@ export class Opt extends Service {
   }
 
   #value;
-  #_enum: boolean;
   #key: string;
 
-  constructor(key: string, _enum = false) {
+  constructor(key: string) {
     super();
-
-    this.#_enum = _enum;
 
     this.#key = key;
     this.#value = this.retrieve();
@@ -31,14 +28,8 @@ export class Opt extends Service {
   }
 
   retrieve() {
-    let v;
-    if (this.#_enum) {
-      v = _conf.get_enum(this.#key);
-    } else {
-      v = _conf.get_string(this.#key);
-    }
-
-    return v;
+    let v = _conf.get_value(this.#key);
+    return v.deepUnpack();
   }
 
   #on_gio_changed = () => {
@@ -50,10 +41,17 @@ export class Opt extends Service {
 
   set value(value: any) {
     this.#value = value;
-    if (this.#_enum) {
-      _conf.set_enum(this.#key, value);
-    } else {
-      _conf.set_string(this.#key, value);
+    // _conf.set_string(this.#key, value);
+    switch (typeof value) {
+      case "string":
+        _conf.set_string(this.#key, value);
+      
+      case "number":
+        if (Number.isInteger(value)) {
+          _conf.set_int(this.#key, value)
+        } else {
+          _conf.set_double(this.#key, value)
+        }
     }
   }
 
