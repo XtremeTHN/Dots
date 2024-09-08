@@ -17,3 +17,5 @@ export const UpTime = Variable("up 0 hours, 0 minutes", {
 });
 
 export const User = GLib.get_user_name();
+
+export const STYLE_PATH = `${App.configDir}/src/styles`;

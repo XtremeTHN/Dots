@@ -1,10 +1,6 @@
-import { execAsync } from "resource:///com/github/Aylur/ags/utils/exec.js";
-import App from "resource:///com/github/Aylur/ags/app.js";
+import { execAsync, exec } from "resource:///com/github/Aylur/ags/utils.js";
 
-const STYLE_PATH = `${App.configDir}/src/styles`;
-execAsync(["sass", `${STYLE_PATH}/main.scss`, `${STYLE_PATH}/style.css`])
-  .then(() => App.applyCss(`${STYLE_PATH}/style.css`))
-  .catch(console.error);
+import App from "resource:///com/github/Aylur/ags/app.js";
 
 try {
   await execAsync([
