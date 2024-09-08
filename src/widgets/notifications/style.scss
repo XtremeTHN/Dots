@@ -3,3 +3,31 @@
     padding: 10px;
     border-radius: 16px;
 }
+
+.notification-center {
+    @include Box;
+    min-width: 640px;
+    min-height: 410px;
+    padding: 20px;
+}
+
+.notification-center-item {
+    background-color: $surface_container;
+    padding: 10px;
+    border-radius: 16px;
+}
+
+.notification-center-clear-btt {
+    box-shadow: none;
+    border-radius: 8px;
+}
+
+.notification-center-item-button {
+    border-radius: 8px;
+}
+
+.center-calendar {
+    /* background-color: $surface_container_high; */
+    padding: 10px;
+    border-radius: 16px;
+}

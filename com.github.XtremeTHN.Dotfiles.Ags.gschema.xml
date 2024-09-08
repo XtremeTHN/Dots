@@ -1,4 +1,12 @@
 <schemalist>
+    <enum id="com.github.XtremeTHN.DotFiles.ags.WeatherProvider">
+        <value nick="metar" value="1"/>
+        <value nick="old_us_weather" value="4"/>
+        <value nick="met_no" value="8"/>
+        <value nick="new_us_weather" value="32"/>
+        <value nick="all" value="61"/>
+    </enum>
+
     <schema id="com.github.XtremeTHN.DotFiles.ags" path="/com/github/Axel/DotFiles/ags/">
         <key name="wallpaper" type="s">
             <default>""</default>
@@ -6,16 +14,10 @@
             <description>Ur wallpaper</description>
         </key>
 
-        <key name="greeter-login-image" type="s">
-            <default>"/etc/greetd/greeter_image.jpg"</default>
-            <summary>Login image</summary>
-            <description>The image above the profile photo in login screen</description>
-        </key>
-
-        <key name="axel-greeter-images" type="s">
-            <default>"/etc/greetd/pfps/axel.jpg;/etc/greetd/axel_wall.jpg"</default>
-            <summary>User profile picture</summary>
-            <description/>
+        <key name="provider" enum="com.github.XtremeTHN.DotFiles.ags.WeatherProvider">
+            <default>"metar"</default>
+            <summary>Weather Provider</summary>
+            <description>The weather provider for Lib GWeather</description>
         </key>
     </schema>
 </schemalist>

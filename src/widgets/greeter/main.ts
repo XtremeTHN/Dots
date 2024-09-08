@@ -89,7 +89,10 @@ const UserLogin = (user: TUser, stack: Gtk.Stack) =>
           //@ts-ignore
           RoundedImage({
             image: user.pfp,
-            className: "circular-image boxed-image greeter-user-pfp",
+            height: 120,
+            width: 120,
+            border_radius: 9999,
+            className: "boxed-image",
             split: true,
             index: 0,
           }),
@@ -114,7 +117,8 @@ const UserButton = (user: TUser, stack: Gtk.Stack) =>
       children: [
         RoundedImage({
           image: user.pfp,
-          className: "circular-image boxed-image",
+          border_radius: 9999,
+          className: "boxed-image",
           height: 60,
           width: 60,
         }),

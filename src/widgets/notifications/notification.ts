@@ -1,7 +1,10 @@
 const notifications = await Service.import("notifications");
 import { type Notification } from "types/service/notifications";
 
-const NotificationIcon = ({ app_entry, app_icon, image }: Notification) => {
+export const NotificationIcon = (
+  { app_entry, app_icon, image }: Notification,
+  size = 78,
+) => {
   if (image) {
     return Widget.Box({
       vpack: "start",
@@ -12,9 +15,9 @@ const NotificationIcon = ({ app_entry, app_icon, image }: Notification) => {
                 background-size: cover;
                 background-repeat: no-repeat;
                 background-position: center;
-                border-radius: 16px;
-                min-width: 78px;
-                min-height: 78px;
+                border-radius: 6px;
+                min-width: ${size}px;
+                min-height: ${size}px;
             `,
     });
   }
@@ -29,12 +32,12 @@ const NotificationIcon = ({ app_entry, app_icon, image }: Notification) => {
     hexpand: false,
     class_name: "icon",
     css: `
-            min-width: 78px;
-            min-height: 78px;
+            min-width: ${size}px;
+            min-height: ${size}px;
         `,
     child: Widget.Icon({
       icon,
-      size: 58,
+      size: size,
       hpack: "center",
       hexpand: true,
       vpack: "center",
