@@ -2,7 +2,7 @@ import Gio from "gi://Gio";
 
 const _conf = Gio.Settings.new("com.github.XtremeTHN.DotFiles.ags");
 
-export class Opt extends Service {
+export class Opt<T> extends Service {
   static {
     Service.register(
       this,
@@ -31,7 +31,9 @@ export class Opt extends Service {
   }
 
   on_change(func: (...args: any[]) => void) {
-    _conf.connect(`changed::${this.#key}`, func);
+    _conf.connect(`changed::${this.#key}`, () => {
+      func(this.retrieve())
+    });
   }
 
   #on_gio_changed = () => {
@@ -41,7 +43,7 @@ export class Opt extends Service {
     this.#value = this.retrieve();
   };
 
-  set value(value: string | number | boolean) {
+  set value(value: T) {
     this.#value = value;
 
     switch (typeof value) {
@@ -77,4 +79,4 @@ export class Opt extends Service {
   }
 }
 
-export const opt = (key) => new Opt(key);
+export const opt = <T>(key) => new Opt<T>(key);
