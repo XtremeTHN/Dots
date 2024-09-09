@@ -30,10 +30,11 @@ export class Opt<T> extends Service {
     return v.deepUnpack();
   }
 
-  on_change(func: (...args: any[]) => void) {
+  on_change(func: (...args: any[]) => void, once = true) {
     _conf.connect(`changed::${this.#key}`, () => {
-      func(this.retrieve())
+      func(this.retrieve());
     });
+    if (once) func(this.retrieve());
   }
 
   #on_gio_changed = () => {
