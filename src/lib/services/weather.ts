@@ -5,10 +5,9 @@ const { weather } = options;
 
 const get = (opt) => opt.value;
 
-
 /**
-* This class gets weather info from lib GWeather
-*/
+ * This class gets weather info from lib GWeather
+ */
 class weatherapi extends Service {
   static {
     Service.register(
@@ -16,6 +15,8 @@ class weatherapi extends Service {
       {},
       {
         temperature: ["string", "rw"],
+        "icon-name": ["string", "rw"],
+        diagnostic: ["string", "rw"],
         city_name: ["string", "rw"],
         state_name: ["string", "rw"],
         location: ["gobject", "rw"],
@@ -26,6 +27,7 @@ class weatherapi extends Service {
   #temp = "0";
   #city_name = "";
   #state_name = "";
+  #icon_name = "";
 
   #location: GWeather.Location | null = null;
   #info = new GWeather.Info({
@@ -47,7 +49,8 @@ class weatherapi extends Service {
 
   #change_provider = (provider: string) => {
     console.log("changed providers", provider);
-    this.#info.set_enabled_providers(GWeather.Provider[provider.toUpperCase()]);
+    // this.#info.set_enabled_providers(GWeather.Provider[provider.toUpperCase()]);
+    this.#info.set_enabled_providers(GWeather.Provider.METAR);
   };
 
   #getCityAndState = () => {
@@ -103,9 +106,94 @@ class weatherapi extends Service {
     }
   };
 
+  #detectWeather = () => {
+    let c = this.#info.get_value_conditions();
+    let condition: GWeather.ConditionPhenomenon = c[1];
+    let qualifier: GWeather.ConditionQualifier = c[2];
+
+    let phen = GWeather.ConditionPhenomenon;
+    let qua = GWeather.ConditionQualifier;
+
+    let icon: string;
+    let diagnostic: Array<string> = [];
+    switch (condition) {
+      case phen.DRIZZLE:
+        icon = "weather-showers-scattered-symbolic";
+        diagnostic.push("Drizzle");
+
+      case phen.RAIN:
+        icon = "weather-showers-symbolic";
+        diagnostic.push("Rain");
+
+      // i know it's wrong.
+      case phen.SNOW ||
+        phen.SNOW_GRAINS ||
+        phen.ICE_PELLETS ||
+        phen.ICE_CRYSTALS ||
+        phen.HAIL ||
+        phen.SMALL_HAIL:
+        icon = "weather-snow-symbolic";
+        diagnostic.push("Ice");
+
+      case phen.MIST || phen.FOG || phen.VOLCANIC_ASH:
+        icon = "weather-fog-symbolic";
+        diagnostic.push("Fog");
+
+      default:
+        icon = "";
+    }
+
+    switch (qualifier) {
+      case qua.VICINITY:
+        diagnostic.push("Vicinity");
+
+      case qua.LIGHT:
+        diagnostic.push("Light");
+
+      case qua.MODERATE:
+        diagnostic.push("Moderated");
+
+      case qua.HEAVY:
+        diagnostic.push("Heavy");
+
+      case qua.SHALLOW:
+        diagnostic.push("Shallow");
+
+      case qua.PATCHES:
+        diagnostic.push("Patches");
+
+      case qua.PARTIAL:
+        diagnostic.push("Partial");
+
+      case qua.THUNDERSTORM:
+        diagnostic.push("Thunderstorm");
+
+      case qua.BLOWING:
+        diagnostic.push("Blowing");
+
+      case qua.SHOWERS:
+        diagnostic.push("Showers");
+
+      case qua.DRIFTING:
+        diagnostic.push("Drifting");
+
+      case qua.FREEZING:
+        diagnostic.push("Freezing");
+    }
+
+    if (icon !== "") {
+      this.changed("icon-name");
+      return;
+    }
+
+    let sky = this.#info.get_value_sky();
+  };
+
   #update_vars = (info: GWeather.Info) => {
     console.log("updating");
     this.#translateUnit(info.get_temp());
+
+    console.log(this.#info.get_value_conditions());
 
     let d = this.#getCityAndState();
     this.#city_name = d[0];
