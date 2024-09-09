@@ -5,6 +5,10 @@ const { weather } = options;
 
 const get = (opt) => opt.value;
 
+
+/**
+* This class gets weather info from lib GWeather
+*/
 class weatherapi extends Service {
   static {
     Service.register(
