@@ -1,4 +1,5 @@
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
+import Weather from "src/lib/services/weather.js";
 
 import { NotificationIcon } from "./notification.js";
 import { type Notification as typeNoti } from "types/service/notifications";
@@ -103,12 +104,14 @@ const NotificationsList = () =>
     vertical: true,
     visible: notifications.bind("notifications").as((n) => n.length > 0),
     spacing: 5,
+    expand: true,
     children: [
       Widget.Scrollable({
         child: Widget.Box({
           vertical: true,
           vpack: "start",
           spacing: 10,
+          expand: true,
           children: notifications
             .bind("notifications")
             .as((n) => n.map(Notification)),
@@ -135,18 +138,40 @@ const Calendar = () =>
     expand: true,
   });
 
-const Weather = Widget.Box({});
+const WeatherWidget = () =>
+  Widget.Box({
+    vpack: "center",
+    hpack: "center",
+    expand: true,
+    vertical: true,
+
+    children: [
+      Widget.Label({
+        className: "title-2",
+        label: Weather.bind("temperature"),
+      }),
+      Widget.Label({
+        className: "title-3",
+        label: Weather.bind("state_name"),
+      }),
+    ],
+  });
+
 const Center = () =>
   Widget.Box({
     className: "notification-center",
     homogeneous: true,
     spacing: 10,
+    vexpand: false,
     children: [
       Widget.Box({
         vertical: true,
         children: [NotificationsPlaceholder(), NotificationsList()],
       }),
-      Calendar(),
+      Widget.Box({
+        vertical: true,
+        children: [WeatherWidget(), Calendar()],
+      }),
     ],
   });
 
