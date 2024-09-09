@@ -7,6 +7,11 @@
         <value nick="all" value="61"/>
     </enum>
 
+    <enum id="com.github.XtremeTHN.DotFiles.ags.TemperatureUnit">
+        <value nick="centigrade" value="3"/>
+        <value nick="fahrenheit" value="4"/>
+    </enum>
+
     <schema id="com.github.XtremeTHN.DotFiles.ags" path="/com/github/Axel/DotFiles/ags/">
         <key name="wallpaper" type="s">
             <default>""</default>
@@ -24,6 +29,12 @@
             <default>"metar"</default>
             <summary>Weather Provider</summary>
             <description>The weather provider for Lib GWeather</description>
+        </key>
+
+        <key name="temp-unit" enum="com.github.XtremeTHN.DotFiles.ags.TemperatureUnit">
+            <default>"centigrade"</default>
+            <summary>Temperature unit</summary>
+            <description>The unit that the temperature will use</description>
         </key>
 
         <key name="current-city-name" type="s">
