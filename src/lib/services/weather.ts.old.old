@@ -1,0 +1,159 @@
+import GWeather from "gi://GWeather";
+import options from "src/options.js";
+
+class weatherapi extends Service {
+  static {
+    Service.register(
+      this,
+      {},
+      {
+        temperature: ["string", "rw"],
+        city_name: ["string", "rw"],
+        state_name: ["string", "rw"],
+        location: ["gobject", "rw"],
+      },
+    );
+  }
+
+  //@ts-ignore
+  private location_obj: GWeather.Location;
+  private info_obj = new GWeather.Info({
+    contactInfo: "x",
+  });
+
+  #temperature: string = "0";
+  #city_name: string = "";
+  #state_name: string = "";
+
+  #valid_coords: boolean;
+
+  constructor() {
+    super();
+
+    this.#valid_coords = true;
+
+    this.#on_opt_change(this.#set_location);
+    this.#on_opt_change(this.#get_pretty_location_string);
+
+    options.weather.provider.on_change((provider) => {
+      this.info_obj.enabledProviders = provider;
+    }, true);
+
+    this.info_obj.connect("updated", this.#update_temp);
+
+    // // location_obj initializes with this func
+    // this.#set_location();
+
+    setInterval(() => {
+      this.info_obj.update();
+    }, 3000);
+  }
+
+  #on_opt_change(func: { (...args: any[]): void; (...args: any[]): void }) {
+    options.weather.location.lat.on_change(func);
+    options.weather.location.lon.on_change(func);
+  }
+
+  #update_temp() {
+    switch (options.weather.temp_unit.value) {
+      case GWeather.TemperatureUnit.FAHRENHEIT:
+        this.#temperature = this.info_obj.get_temp();
+        this.changed("temperature");
+      case GWeather.TemperatureUnit.CENTIGRADE:
+        let farenheit = this.info_obj.get_temp().replaceAll("°F", "").trim();
+        this.#temperature = `${Math.floor((Number.parseFloat(farenheit) - 32) * 0.555556)} °C`;
+        this.changed("temperature");
+    }
+  }
+
+  #check_coords() {
+    if (
+      options.weather.location.lat.value == 0 &&
+      options.weather.location.lon.value == 0
+    ) {
+      console.error(
+        "Cannot initialize weather service. Provide a latitude, longitude and city values in control center.",
+      );
+      this.#valid_coords = false;
+    }
+
+    this.#valid_coords = true;
+  }
+
+  #set_location() {
+    this.#check_coords();
+
+    if (!this.#valid_coords) {
+      return;
+    }
+    console.log("asd");
+
+    this.location_obj = GWeather.Location.new_detached(
+      options.weather.location.city_name.value,
+      null,
+      options.weather.location.lat.value,
+      options.weather.location.lon.value,
+    );
+
+    console.log("asd", this.location_obj);
+
+    this.info_obj.set_location(this.location_obj);
+  }
+
+  #get_location_from_level = (level: GWeather.LocationLevel) => {
+    let l = this.location_obj.get_level();
+    let location = this.location_obj;
+
+    if (l < level) {
+      location.find_nearest_city(
+        options.weather.location.lat.value,
+        options.weather.location.lat.value,
+      );
+    } else if (l > level) {
+      let le = l;
+      while (le > level) {
+        location = location.get_parent();
+        le = location.get_level();
+      }
+    }
+
+    return location;
+  };
+
+  #get_pretty_location_string() {
+    if (!this.#valid_coords) return;
+
+    this.#state_name = this.#get_location_from_level(
+      GWeather.LocationLevel.ADM1,
+    ).get_name();
+
+    this.#city_name = this.#get_location_from_level(
+      GWeather.LocationLevel.CITY,
+    ).get_name();
+  }
+
+  get location() {
+    return this.location_obj;
+  }
+
+  set location(loc: GWeather.Location) {
+    this.location_obj = loc;
+    this.changed("location");
+  }
+
+  get temperature() {
+    return this.#temperature;
+  }
+
+  get city_name() {
+    return this.#city_name;
+  }
+
+  get state_name() {
+    return this.#state_name;
+  }
+}
+
+const Weather = new weatherapi();
+
+export default Weather;
