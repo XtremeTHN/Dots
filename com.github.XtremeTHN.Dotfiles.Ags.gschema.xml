@@ -1,15 +1,16 @@
 <schemalist>
     <enum id="com.github.XtremeTHN.DotFiles.ags.WeatherProvider">
-        <value nick="metar" value="1"/>
-        <value nick="old_us_weather" value="4"/>
-        <value nick="met_no" value="8"/>
-        <value nick="new_us_weather" value="32"/>
-        <value nick="all" value="61"/>
+        <value nick="freeweather" value="1"/>
     </enum>
 
     <enum id="com.github.XtremeTHN.DotFiles.ags.TemperatureUnit">
-        <value nick="centigrade" value="3"/>
-        <value nick="fahrenheit" value="4"/>
+        <value nick="centigrade" value="1"/>
+        <value nick="fahrenheit" value="2"/>
+    </enum>
+
+    <enum id="com.github.XtremeTHN.DotFiles.ags.LocationType">
+        <value nick="coordinates" value="1"/>
+        <value nick="name" value="2"/>
     </enum>
 
     <schema id="com.github.XtremeTHN.DotFiles.ags" path="/com/github/Axel/DotFiles/ags/">
@@ -26,33 +27,33 @@
         </key>
 
         <key name="provider" enum="com.github.XtremeTHN.DotFiles.ags.WeatherProvider">
-            <default>"metar"</default>
+            <default>"freeweather"</default>
             <summary>Weather Provider</summary>
-            <description>The weather provider for Lib GWeather</description>
+            <description>The weather provider for the weather service</description>
+        </key>
+
+        <key name="api-key" type="s">
+            <default>""</default>
+            <summary>Provider api key</summary>
+            <description>The api key for the selected provider</description>
+        </key>
+
+        <key name="location-type" enum="com.github.XtremeTHN.DotFiles.ags.LocationType">
+            <default>"coordinates"</default>
+            <summary>The location type</summary>
+            <description>This specifies the format that will be location</description>
+        </key>
+
+        <key name="location" type="as">
+            <default>[]</default>
+            <summary>The location</summary>
+            <description>An array that will be contain the location</description>
         </key>
 
         <key name="temp-unit" enum="com.github.XtremeTHN.DotFiles.ags.TemperatureUnit">
             <default>"centigrade"</default>
             <summary>Temperature unit</summary>
             <description>The unit that the temperature will use</description>
-        </key>
-
-        <key name="current-city-name" type="s">
-            <default>""</default>
-            <summary>Your city</summary>
-            <description>Your current city, needed for GWeather</description>
-        </key>
-
-        <key name="latitude" type="d">
-            <default>0</default>
-            <summary>Your latitude</summary>
-            <description>Needed for GWeather. It should be automatically setted when running ags with my dotfiles</description>
-        </key>
-
-        <key name="longitude" type="d">
-            <default>0</default>
-            <summary>Your longitude</summary>
-            <description>Needed for GWeather. It should be automatically setted when running ags with my dotfiles</description>
         </key>
     </schema>
 </schemalist>
