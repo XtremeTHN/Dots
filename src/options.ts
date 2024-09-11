@@ -8,6 +8,7 @@ export default {
     temp_unit: opt<number>("temp-unit"),
     location_type: opt<string>("location-type"),
     location: opt<Array<string>>("location"),
+    update_time: opt<number>("update-time"),
     api_key: opt<string>("api-key"),
   },
 };
