@@ -10,8 +10,7 @@ import { initStyle } from "./lib/style.js";
 import("src/lib/battery.js");
 
 options.wallpaper.on_change(initStyle);
-options.dark_mode.on_change(initStyle);
-initStyle();
+options.dark_mode.on_change(initStyle, true);
 
 App.config({
   windows: [
@@ -25,9 +24,3 @@ App.config({
 
 CornerTopleft();
 CornerTopright();
-
-// import Weather from "./lib/services/weather.js";
-
-// Weather.connect("notify::temperature", () => {
-//   console.log("temp: ", Weather.temperature);
-// });
