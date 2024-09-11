@@ -1,149 +1,202 @@
-import GWeather from "gi://GWeather";
+import Gio from "gi://Gio";
+import Pixbuf from "gi://GdkPixbuf";
+import { fetch } from "resource:///com/github/Aylur/ags/utils.js";
+import { Response } from "resource:///com/github/Aylur/ags/utils/fetch.js";
 import options from "src/options.js";
 
 const { weather } = options;
-
 const get = (opt) => opt.value;
 
+const FREEWEATHER_URL = "https://api.weatherapi.com/v1/current.json?key=";
 
-/**
-* This class gets weather info from lib GWeather
-*/
+const insertAtStart = (char, string) => {
+  let first = string.slice(0, 1);
+  return char + first + string.slice(1);
+};
+
+class Freeweather {
+  constructor() {}
+
+  async send_request(params: Array<string>) {
+    let final = FREEWEATHER_URL + get(weather.api_key);
+    let first = insertAtStart("&", params.at(0));
+    params[0] = first;
+
+    return fetch(final + params.join("&"));
+  }
+}
+
 class weatherapi extends Service {
   static {
     Service.register(
       this,
       {},
       {
-        temperature: ["string", "rw"],
-        city_name: ["string", "rw"],
-        state_name: ["string", "rw"],
-        location: ["gobject", "rw"],
+        temperature: ["float", "rw"],
+        condition: ["string", "rw"],
+        location: ["jsobject", "rw"],
+        "pixbuf-icon": ["gobject", "rw"],
+
+        name: ["string", "rw"],
+        region: ["string", "rw"],
+        country: ["string", "rw"],
       },
     );
   }
 
   #temp = "0";
-  #city_name = "";
-  #state_name = "";
+  #condition = "No data";
+  #pixbuf_icon;
+  #location: Array<string> = ["Unknown"];
 
-  #location: GWeather.Location | null = null;
-  #info = new GWeather.Info({
-    applicationId: "com.github.Aylur.ags",
-    contactInfo: "xtreme.dev2@gmail.com",
-  });
+  #info = {};
+  #valid_location: boolean = false;
+  #manager: Freeweather | null = null;
 
-  #interval;
-  #update_connection_id = 0;
+  #interval = null;
+
+  #name = "";
+  #region = "";
+  #country = "";
 
   constructor() {
     super();
-    console.log("constructed");
-    weather.location.lat.on_change(this.#checkCoords);
-    weather.location.lon.on_change(this.#checkCoords);
 
-    weather.provider.on_change(this.#change_provider, true);
+    weather.location.on_change((loc) => {
+      this.#checkLocation(loc);
+      if (this.#valid_location || this.#interval == null) {
+        this.#start();
+      }
+    });
   }
 
-  #change_provider = (provider: string) => {
-    console.log("changed providers", provider);
-    this.#info.set_enabled_providers(GWeather.Provider[provider.toUpperCase()]);
-  };
+  async #getImage(url) {
+    try {
+      let res = await fetch(url);
+    } catch (E) {
+      console.error("Cannot fetch icon.", E);
+      return;
+    }
+    this.#pixbuf_icon = Pixbuf.Pixbuf.new_from_stream(res.stream, null);
+  }
 
-  #getCityAndState = () => {
-    let state = this.#location.get_parent();
-    while (state && state.get_level() > GWeather.LocationLevel.ADM1)
-      state = state.get_parent();
+  #checkLocation(loc) {
+    if (this.#location[0] == "coords") {
+      if (this.#location.length < 3) {
+        console.error("Location array incomplete");
+        this.#valid_location = false;
 
-    if (state) return [this.#location.get_name(), state.get_name()];
-    else return [this.#location.get_name()];
-  };
+        return;
+      }
+    }
+    if (this.#location[1] == "Unkown" || this.#location[1] == "") {
+      console.error("Location second item is empty");
+      this.#valid_location = false;
+      return;
+    }
 
-  #get_location = () => {
-    console.log("getting location");
-    this.#location = GWeather.Location.new_detached(
-      get(weather.location.city_name),
-      null,
-      get(weather.location.lat),
-      get(weather.location.lon),
-    );
-
-    this.#info.set_location(this.#location);
-  };
+    this.#valid_location = true;
+    this.#location = loc;
+    this.changed("location");
+  }
 
   #start = () => {
-    console.log("starting");
-    this.#interval = setInterval(() => {
-      this.#info.update();
-    }, 4000);
+    switch (get(weather.provider)) {
+      case "freeweather":
+        this.#manager = new Freeweather();
+        break;
+    }
 
-    this.#update_connection_id = this.#info.connect(
-      "updated",
-      this.#update_vars,
-    );
+    this.#interval = setInterval(() => {
+      let query = "";
+
+      switch (get(weather.location_type)) {
+        case "coordinates":
+          if (this.#location.length < 2) {
+            console.error(
+              "Location length is not 2. If you updated location-type, you should update location too.",
+            );
+            return;
+          }
+          query = this.#location.join(",");
+          break;
+        case "name":
+          query = this.#location[1];
+          break;
+      }
+
+      this.#manager
+        ?.send_request([`q=${query}`, "aqi=no"])
+        .then(this.#updateVars.bind(this))
+        .catch(console.error);
+    }, 1000);
+  };
+
+  #updateVars(result: Response) {
+    result
+      .json()
+      .then((r) => {
+        switch (get(weather.temp_unit)) {
+          case "centigrade":
+            this.#temp = r.current.temp_c;
+            break;
+          case "fahrenheit":
+            this.#temp = r.current.temp_f;
+            break;
+        }
+
+        this.#name = r.location.name;
+        this.#name = r["location"]["name"];
+        this.#region = r.location.region;
+        this.#country = r.location.country;
+        this.#condition = r.current.condition.text;
+        this.#getImage("https://" + r.current.condition.icon.slice(2));
+
+        this.#notify_all();
+      })
+      .catch(console.error);
+  }
+
+  #notify_all = () => {
+    this.changed("temperature");
+    this.changed("condition");
+    this.changed("pixbuf-icon");
+    this.changed("name");
+    this.changed("region");
+    this.changed("country");
   };
 
   #stop = () => {
-    console.log("stopping");
-    this.#interval?.destroy();
-    if (this.#update_connection_id > 0)
-      this.#info.disconnect(this.#update_connection_id);
-  };
-
-  #translateUnit = (unit: string) => {
-    console.log("translating");
-    switch (get(weather.temp_unit)) {
-      case "fahrenheit":
-        this.#temp = unit;
-        this.changed("temperature");
-      case "centigrade":
-        let farenheit = unit.replaceAll("°F", "").trim();
-        this.#temp = `${Math.floor((Number.parseFloat(farenheit) - 32) * 0.555556)} °C`;
-        this.changed("temperature");
-    }
-  };
-
-  #update_vars = (info: GWeather.Info) => {
-    console.log("updating");
-    this.#translateUnit(info.get_temp());
-
-    let d = this.#getCityAndState();
-    this.#city_name = d[0];
-    this.#state_name = d.at(1) !== null ? d.at(1) : "";
-
-    this.changed("city_name");
-    this.changed("state_name");
-  };
-
-  #checkCoords = () => {
-    console.log("checking coords");
-    if (
-      get(weather.location.lat) == 0 &&
-      get(weather.location.lon) == 0 &&
-      get(weather.location.city_name) == ""
-    ) {
-      console.error(
-        "Cannot initialize weather service. Provide a latitude, longitude and city values in control center.",
-      );
-
-      this.#stop();
-    } else {
-      this.#stop();
-      this.#get_location();
-      this.#start();
-    }
+    this.#interval.destroy();
+    this.#manager = null;
   };
 
   get temperature() {
     return this.#temp;
   }
 
-  get state_name() {
-    return this.#state_name;
+  get condition() {
+    return this.#condition;
   }
 
-  get city_name() {
-    return this.#city_name;
+  get location() {
+    return this.#location;
+  }
+
+  get pixbuf_icon() {
+    return this.#pixbuf_icon;
+  }
+
+  get name() {
+    return this.#name;
+  }
+
+  get region() {
+    return this.#region;
+  }
+
+  get country() {
+    return this.#country;
   }
 }
 
