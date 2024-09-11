@@ -45,7 +45,7 @@ class weatherapi extends Service {
 
   #temp = "0";
   #condition = "No data";
-  #pixbuf_icon;
+  #pixbuf_icon: Pixbuf.Pixbuf;
   #location: Array<string> = ["Unknown"];
 
   #info = {};
@@ -73,6 +73,7 @@ class weatherapi extends Service {
     try {
       let res = await fetch(url);
       this.#pixbuf_icon = Pixbuf.Pixbuf.new_from_stream(res.stream, null);
+      this.changed("pixbuf-icon");
     } catch (E) {
       console.error("Cannot fetch icon.", E);
       return;
@@ -106,30 +107,36 @@ class weatherapi extends Service {
         break;
     }
 
-    this.#interval = setInterval(() => {
-      let query = "";
-
-      switch (get(weather.location_type)) {
-        case "coordinates":
-          if (this.#location.length < 2) {
-            console.error(
-              "Location length is not 2. If you updated location-type, you should update location too.",
-            );
-            return;
-          }
-          query = this.#location.join(",");
-          break;
-        case "name":
-          query = this.#location[1];
-          break;
-      }
-
-      this.#manager
-        ?.send_request([`q=${query}`, "aqi=no"])
-        .then(this.#updateVars.bind(this))
-        .catch(console.error);
-    }, 1000);
+    this.#interval = setInterval(
+      this.#req.bind(this),
+      get(weather.update_time),
+    );
+    this.#req();
   };
+
+  #req() {
+    let query = "";
+
+    switch (get(weather.location_type)) {
+      case "coordinates":
+        if (this.#location.length < 2) {
+          console.error(
+            "Location length is not 2. If you updated location-type, you should update location too.",
+          );
+          return;
+        }
+        query = this.#location.join(",");
+        break;
+      case "name":
+        query = this.#location[1];
+        break;
+    }
+
+    this.#manager
+      ?.send_request([`q=${query}`, "aqi=no"])
+      .then(this.#updateVars.bind(this))
+      .catch(console.error);
+  }
 
   #updateVars(result: Response) {
     result
@@ -158,7 +165,6 @@ class weatherapi extends Service {
   #notify_all = () => {
     this.changed("temperature");
     this.changed("condition");
-    this.changed("pixbuf-icon");
     this.changed("name");
     this.changed("region");
     this.changed("country");
