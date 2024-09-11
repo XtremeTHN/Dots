@@ -25,12 +25,12 @@ export class Opt<T> extends Service {
     _conf.connect(`changed::${key}`, this.#on_gio_changed);
   }
 
-  retrieve() {
+  retrieve(): T {
     let v = _conf.get_value(this.#key);
     return v.deepUnpack();
   }
 
-  on_change(func: (...args: any[]) => void, once = true) {
+  on_change(func: (func: T) => void, once = true) {
     _conf.connect(`changed::${this.#key}`, () => {
       func(this.retrieve());
     });
