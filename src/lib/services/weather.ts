@@ -1,4 +1,3 @@
-import Gio from "gi://Gio";
 import Pixbuf from "gi://GdkPixbuf";
 import { fetch } from "resource:///com/github/Aylur/ags/utils.js";
 import { Response } from "resource:///com/github/Aylur/ags/utils/fetch.js";
@@ -73,11 +72,11 @@ class weatherapi extends Service {
   async #getImage(url) {
     try {
       let res = await fetch(url);
+      this.#pixbuf_icon = Pixbuf.Pixbuf.new_from_stream(res.stream, null);
     } catch (E) {
       console.error("Cannot fetch icon.", E);
       return;
     }
-    this.#pixbuf_icon = Pixbuf.Pixbuf.new_from_stream(res.stream, null);
   }
 
   #checkLocation(loc) {
@@ -146,7 +145,6 @@ class weatherapi extends Service {
         }
 
         this.#name = r.location.name;
-        this.#name = r["location"]["name"];
         this.#region = r.location.region;
         this.#country = r.location.country;
         this.#condition = r.current.condition.text;
