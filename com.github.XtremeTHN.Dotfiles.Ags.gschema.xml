@@ -32,6 +32,12 @@
             <description>The weather provider for the weather service</description>
         </key>
 
+        <key name="update-time" type="i">
+            <default>600000</default>
+            <summary>The update time in miliseconds</summary>
+            <description>The time that will have to pass before updating weather variables</description>
+        </key>
+
         <key name="api-key" type="s">
             <default>""</default>
             <summary>Provider api key</summary>
