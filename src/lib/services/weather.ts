@@ -1,10 +1,14 @@
 import Pixbuf from "gi://GdkPixbuf";
+import Gio from "gi://Gio";
+import GLib from "gi://GLib";
 import { fetch } from "resource:///com/github/Aylur/ags/utils.js";
 import { Response } from "resource:///com/github/Aylur/ags/utils/fetch.js";
 import options from "src/options.js";
 
 const { weather } = options;
 const get = (opt) => opt.value;
+
+Gio._promisify(Gio.File.prototype, "load_contents_async");
 
 const FREEWEATHER_URL = "https://api.weatherapi.com/v1/current.json?key=";
 
@@ -24,6 +28,32 @@ class Freeweather {
     return fetch(final + params.join("&"));
   }
 }
+
+const downloadFile = async (url: string): Promise<Uint8Array> => {
+  let res = Gio.File.new_for_uri(url);
+
+  let splitted = url.split("/");
+  const path = `${App.configDir}/resources/${splitted.at(-2)}_${splitted.at(-1)}`;
+
+  const [content, _] = await res.load_contents_async(null);
+  let dest = Gio.File.new_for_path(path);
+  dest.replace_contents_async(
+    content,
+    _,
+    false,
+    Gio.FileCreateFlags.REPLACE_DESTINATION,
+    null,
+    () => {},
+  );
+  return new Promise((res) => {
+    res(content);
+  });
+};
+
+const pixbuf_from_bytes = (b: Uint8Array) => {
+  const stream = Gio.MemoryInputStream.new_from_bytes(new GLib.Bytes(b));
+  return Pixbuf.Pixbuf.new_from_stream(stream, null);
+};
 
 class weatherapi extends Service {
   static {
@@ -45,7 +75,7 @@ class weatherapi extends Service {
 
   #temp = "0";
   #condition = "No data";
-  #pixbuf_icon: Pixbuf.Pixbuf;
+  #pixbuf_icon: Pixbuf.Pixbuf | null = null;
   #location: Array<string> = ["Unknown"];
 
   #info = {};
@@ -69,16 +99,44 @@ class weatherapi extends Service {
     });
   }
 
-  async #getImage(url) {
+  async #getImage(url: string) {
     try {
-      let res = await fetch(url);
-      this.#pixbuf_icon = Pixbuf.Pixbuf.new_from_stream(res.stream, null);
+      const content = await downloadFile(url);
+      this.#pixbuf_icon = pixbuf_from_bytes(content).scale_simple(
+        42,
+        42,
+        Pixbuf.InterpType.BILINEAR,
+      );
       this.changed("pixbuf-icon");
     } catch (E) {
-      console.error("Cannot fetch icon.", E);
-      return;
+      console.error(E);
     }
   }
+
+  // async #getImage(url) {
+  //   try {
+  //     let res = await fetch(url);
+  //     // console.log(url, await res.text());
+  //     Utils.writeFileSync(await res.text(), "/home/axel/.config/ags/image.png");
+  //     let icon = Pixbuf.Pixbuf.new_from_stream(res.stream, null);
+
+  //     this.#pixbuf_icon = icon.scale_simple(46, 46, Pixbuf.InterpType.BILINEAR);
+  //     Utils.writeFileSync(await res.text(), "/home/axel/.config/ags/image.png");
+  //     // let f = Gio.File.new_for_path("/home/axel/.config/ags/image.png");
+  //     // const outputStream = await f.create_async(
+  //     //   Gio.FileCreateFlags.NONE,
+  //     //   GLib.PRIORITY_DEFAULT,
+  //     //   null,
+  //     // );
+
+  //     // outputStream.write
+
+  //     this.changed("pixbuf-icon");
+  //   } catch (E) {
+  //     console.error("Cannot fetch icon.", E);
+  //     return;
+  //   }
+  // }
 
   #checkLocation(loc) {
     if (this.#location[0] == "coords") {
