@@ -25,9 +25,10 @@ export const Volume = () =>
   Widget.Box({
     vertical: false,
     hexpand: true,
-    spacing: 10,
     children: [
-      Widget.Icon().hook(Audio, (self) => {
+      Widget.Icon({
+        icon: _audio_icon(),
+      }).hook(Audio, (self) => {
         self.icon_name = _audio_icon();
       }),
       Widget.Slider({
