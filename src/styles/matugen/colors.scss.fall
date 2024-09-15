@@ -29,7 +29,7 @@ $primary_container: #0c5130;
 $primary_fixed: #aff2c4;
 $primary_fixed_dim: #94d5a9;
 $scrim: #000000;
-$foreground: #b5ccba;
+$secondary: #b5ccba;
 $secondary_container: #b5ccba;
 $secondary_fixed: #d1e8d5;
 $secondary_fixed_dim: #b5ccba;
