@@ -185,18 +185,12 @@ const Center = () =>
   });
 
 export default () =>
-  Widget.Window({
-    name: "notification-center",
-    anchor: ["top"],
-    margins: [10],
-
-    // for some reason if notification center is not visible at the start
-    // of the config, it will not show xd
-    // so i'm adding a delay before hiding the notification center
-    setup: (self) => {
-      setTimeout(() => {
-        self.visible = false;
-      }, 30);
-    },
-    child: Center(),
-  });
+  Weather.attach(
+    Widget.Window({
+      name: "notification-center",
+      anchor: ["top"],
+      margins: [10],
+      visible: false,
+      child: Center(),
+    }),
+  );

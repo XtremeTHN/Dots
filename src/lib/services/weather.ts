@@ -3,6 +3,8 @@ import Gio from "gi://Gio";
 import GLib from "gi://GLib";
 import { fetch } from "resource:///com/github/Aylur/ags/utils.js";
 import { Response } from "resource:///com/github/Aylur/ags/utils/fetch.js";
+
+import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import options from "src/options.js";
 
 const { weather } = options;
@@ -82,8 +84,6 @@ class weatherapi extends Service {
   #valid_location: boolean = false;
   #manager: Freeweather | null = null;
 
-  #interval = null;
-
   #name = "";
   #region = "";
   #country = "";
@@ -93,7 +93,7 @@ class weatherapi extends Service {
 
     weather.location.on_change((loc) => {
       this.#checkLocation(loc);
-      if (this.#valid_location || this.#interval == null) {
+      if (this.#valid_location || get(weather.api_key) !== "") {
         this.#start();
       }
     });
@@ -112,31 +112,6 @@ class weatherapi extends Service {
       console.error(E);
     }
   }
-
-  // async #getImage(url) {
-  //   try {
-  //     let res = await fetch(url);
-  //     // console.log(url, await res.text());
-  //     Utils.writeFileSync(await res.text(), "/home/axel/.config/ags/image.png");
-  //     let icon = Pixbuf.Pixbuf.new_from_stream(res.stream, null);
-
-  //     this.#pixbuf_icon = icon.scale_simple(46, 46, Pixbuf.InterpType.BILINEAR);
-  //     Utils.writeFileSync(await res.text(), "/home/axel/.config/ags/image.png");
-  //     // let f = Gio.File.new_for_path("/home/axel/.config/ags/image.png");
-  //     // const outputStream = await f.create_async(
-  //     //   Gio.FileCreateFlags.NONE,
-  //     //   GLib.PRIORITY_DEFAULT,
-  //     //   null,
-  //     // );
-
-  //     // outputStream.write
-
-  //     this.changed("pixbuf-icon");
-  //   } catch (E) {
-  //     console.error("Cannot fetch icon.", E);
-  //     return;
-  //   }
-  // }
 
   #checkLocation(loc) {
     if (this.#location[0] == "coords") {
@@ -165,10 +140,10 @@ class weatherapi extends Service {
         break;
     }
 
-    this.#interval = setInterval(
-      this.#req.bind(this),
-      get(weather.update_time),
-    );
+    // this.#interval = setInterval(
+    //   this.#req.bind(this),
+    //   get(weather.update_time),
+    // );
     this.#req();
   };
 
@@ -228,10 +203,14 @@ class weatherapi extends Service {
     this.changed("country");
   };
 
-  #stop = () => {
-    this.#interval.destroy();
-    this.#manager = null;
-  };
+  attach(window) {
+    return window.on("notify::visible", () => {
+      if (window.visible == true) {
+        this.#req();
+        console.log("asd");
+      }
+    });
+  }
 
   get temperature() {
     return this.#temp;
