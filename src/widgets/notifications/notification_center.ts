@@ -144,15 +144,24 @@ const WeatherWidget = () =>
     hpack: "center",
     expand: true,
     vertical: true,
-
     children: [
-      Widget.Label({
-        className: "title-2",
-        label: Weather.bind("temperature"),
+      Widget.Box({
+        spacing: 10,
+        hpack: "center",
+        children: [
+          Widget.Icon({
+            pixbuf: Weather.bind("pixbuf-icon"),
+          }),
+          Widget.Label({
+            className: "title-2",
+            label: Weather.bind("condition"),
+          }),
+        ],
       }),
       Widget.Label({
-        className: "title-3",
-        label: Weather.bind("state_name"),
+        hpack: "center",
+      }).hook(Weather, (self) => {
+        self.label = `${Weather.name}, ${Weather.region}`;
       }),
     ],
   });
@@ -180,6 +189,14 @@ export default () =>
     name: "notification-center",
     anchor: ["top"],
     margins: [10],
-    visible: false,
+
+    // for some reason if notification center is not visible at the start
+    // of the config, it will not show xd
+    // so i'm adding a delay before hiding the notification center
+    setup: (self) => {
+      setTimeout(() => {
+        self.visible = false;
+      }, 30);
+    },
     child: Center(),
   });
