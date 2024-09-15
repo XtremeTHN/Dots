@@ -57,6 +57,9 @@ const pixbuf_from_bytes = (b: Uint8Array) => {
   return Pixbuf.Pixbuf.new_from_stream(stream, null);
 };
 
+/**
+ * A weather service.
+ */
 class weatherapi extends Service {
   static {
     Service.register(
@@ -203,7 +206,11 @@ class weatherapi extends Service {
     this.changed("country");
   };
 
-  attach(window) {
+  /**
+  * Connects to a widget and updates the weather service when the widget is visible.
+  Returns the widget.
+  */
+  attach<T>(window): T {
     return window.on("notify::visible", () => {
       if (window.visible == true) {
         this.#req();
