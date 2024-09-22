@@ -1,0 +1,42 @@
+.row {
+    & label {
+        color: $secondary;
+    }
+
+    border: solid 1px lighten($inverse_on_surface, 4);
+
+    padding: 10px;
+    background-color: $inverse_on_surface;
+}
+
+.row-title {
+    font-size: 1.3rem;
+    font-weight: bolder;
+}
+
+.controlcenter-top-category {
+    & label {
+        color: $primary;
+    }
+    border-radius: 24px;
+    padding: 8px;
+    padding-left: 25px;
+    padding-right: 25px;
+    background-color: $primary_container;
+}
+
+.controlcenter {
+    @include Box;
+}
+
+.group {
+    & .row:first-child {
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+    }
+
+    & .row:last-child {
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+    }
+}
