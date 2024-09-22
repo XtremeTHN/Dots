@@ -50,6 +50,7 @@ export class Opt<T> extends Service {
     switch (typeof value) {
       case "string":
         _conf.set_string(this.#key, value);
+        break;
 
       case "number":
         if (Number.isInteger(value)) {
@@ -57,9 +58,11 @@ export class Opt<T> extends Service {
         } else {
           _conf.set_double(this.#key, value);
         }
+        break;
 
       case "boolean":
         _conf.set_boolean(this.#key, value);
+        break;
     }
   }
 
