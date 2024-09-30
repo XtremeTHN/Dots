@@ -13,7 +13,16 @@
         <value nick="name" value="2"/>
     </enum>
 
-    <schema id="com.github.XtremeTHN.DotFiles.ags" path="/com/github/Axel/DotFiles/ags/">
+    <enum id="com.github.XtremeTHN.DotFiles.ags.NotificationPosition">
+        <value nick="top right" value="1"/>
+        <value nick="top left" value="2"/>
+        <value nick="top center" value="3"/>
+        <value nick="bottom right" value="4"/>
+        <value nick="bottom left" value="5"/>
+        <value nick="bottom center" value="6"/>
+    </enum>
+
+    <schema id="com.github.XtremeTHN.DotFiles.ags" path="/com/github/XtremeTHN/DotFiles/ags/">
         <key name="wallpaper" type="s">
             <default>""</default>
             <summary>Your wallpaper</summary>
@@ -25,7 +34,9 @@
             <summary>Dark color scheme</summary>
             <description>This will affect the compiling of the scss</description>
         </key>
+    </schema>
 
+    <schema id="com.github.XtremeTHN.DotFiles.ags.Weather" path="/com/github/XtremeTHN/DotFiles/ags/Weather/">
         <key name="provider" enum="com.github.XtremeTHN.DotFiles.ags.WeatherProvider">
             <default>"freeweather"</default>
             <summary>Weather Provider</summary>
@@ -60,6 +71,26 @@
             <default>"centigrade"</default>
             <summary>Temperature unit</summary>
             <description>The unit that the temperature will use</description>
+        </key>
+    </schema>
+
+    <schema id="com.github.XtremeTHN.DotFiles.ags.Notifications" path="/com/github/XtremeTHN/DotFiles/ags/Notifications/">
+        <key name="popup-close-delay" type="i">
+            <default>4000</default>
+            <summary>Notification close delay</summary>
+            <description>The notification close delay in miliseconds</description>
+        </key>
+
+        <key name="position" enum="com.github.XtremeTHN.DotFiles.ags.NotificationPosition">
+            <default>"top right"</default>
+            <summary>The position</summary>
+            <description>The position of the notification window list</description>
+        </key>
+
+        <key name="overlay-windows" type="b">
+            <default>false</default>
+            <summary>Should overlay windows</summary>
+            <description>If the notification list should overlay windows</description>
         </key>
     </schema>
 </schemalist>

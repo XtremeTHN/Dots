@@ -8,6 +8,7 @@ import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import options from "src/options.js";
 
 const { weather } = options;
+
 const get = (opt) => opt.value;
 
 Gio._promisify(Gio.File.prototype, "load_contents_async");
@@ -213,8 +214,8 @@ class weatherapi extends Service {
   attach<T>(window): T {
     return window.on("notify::visible", () => {
       if (window.visible == true) {
+        console.debug("Sending request to", get(weather.provider), "provider");
         this.#req();
-        console.log("asd");
       }
     });
   }
